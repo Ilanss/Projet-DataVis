@@ -1,7 +1,8 @@
+import "billboard.js";
 
 function api() {
 
-    return fetch('https://api.themoviedb.org/3/movie/550?api_key=d227582077145ec762e4105f563380ac')
+    return fetch('https://api.themoviedb.org/3/movie/550?api_key='.key)
         .then(res => res.json())
         .then(function (data) {
             console.log(data);
