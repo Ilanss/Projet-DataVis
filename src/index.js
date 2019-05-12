@@ -1,8 +1,12 @@
-import * as d3 from "d3";
-import "billboard.js";
-import movies from "../data/movie"
+import "d3";
+import {bb} from "billboard.js";
+import "billboard.js/dist/billboard.css";
 import "bootstrap";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import {APIKEY} from "./key";
+
+var movies = require('../data/movie.json');
+var genres = require('../data/genre.json');
 
 console.log(movies);
 
@@ -32,6 +36,9 @@ setTimeout(function() {
     });
 }, 1000);
 
+
+
+
 let fetchAll = function () {
     let url = ''.concat(baseURL, 'discover/movie?api_key=', APIKEY);
     fetch(url)
@@ -40,12 +47,6 @@ let fetchAll = function () {
             console.log(data);
 
             var vo = map()
-
-
-
-
-
-
 
             //process the returned data
             document.getElementById('output').innerHTML = JSON.stringify(data, null, 4);
