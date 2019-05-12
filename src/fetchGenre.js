@@ -1,3 +1,5 @@
+import {APIKEY} from "./key";
+
 const films = require('../data/films.json')
 const R = require('ramda')
 
@@ -8,7 +10,7 @@ const genres = R.uniq(
     ))
 
 const getGenre = id =>
-    fetch() // URL
+    fetch('https://api.themoviedb.org/3/genre/movie/list?api_key='+APIKEY) // URL
         .then(r => r.json())
 
 Promise.all(genres.map(getGenre))
