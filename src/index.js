@@ -82,7 +82,7 @@ var chart2 = bb.generate({
         columns: [
         ],
         type: "bar",
-        order: "asc",
+        order: "desc",
 
     },
     bar: {
@@ -95,7 +95,8 @@ var chart2 = bb.generate({
         x: {
             label: "Genre",
             type: "category",
-            categories: genres.map(r => trouverLeNomDuGenreParId(r))
+            categories: genres.map(r => r.genre)
+            //categories: genres.map(r => trouverLeNomDuGenreParId(r))
         },
         y: {
             label: "Number of films"
