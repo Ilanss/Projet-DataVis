@@ -7,7 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 const R = require('ramda');
 
 var movies = require('../data/movie.json');
-var genres = require('../data/genre.json');
+var genresData = require('../data/genre.json');
 
 const movies = movies.results
 
@@ -23,13 +23,13 @@ const byLang = movies.reduce((res, movie) => {
 const languages = Object.keys(byLang)
     .map(lang => ({ lang, count: byLang[lang] }))
 
-//console.log(languages)
+//console.log(movies)
 
 
 var chart = bb.generate({
     data: {
         json: {
-            "Count": languages.map(r => r.count),
+            "Number of films by original language": languages.map(r => r.count),
         },
         columns: [
         ],
@@ -55,21 +55,35 @@ var chart = bb.generate({
 });
 
 
+const tousLesGenre_ids = R.flatten(movies.map(movie => movie.genre_ids))
 
-const countGenres = Object.keys(genres.results)
-    .map(lang => ({ lang, count: byLang[lang] }))
+const compterLesGenres = tousLesGenre_ids.reduce((res, genre_id) => {
+    if (res[genre_id]) {
+        return { ...res, [genre_id]: res[genre_id] + 1 }
+    } else {
+        return { ...res, [genre_id]: 1 }
+    }
+}, {})
 
-console.log(genres.results)
+
+const genres = Object.keys(compterLesGenres)
+    .map(genre => ({ genre, count: compterLesGenres[genre] }))
+
+const trouverLeNomDuGenreParId = genre_id => genresData.find(genre => genre.id === genre_id).name
+
+//console.log(trouverLeNomDuGenreParId(12))
 
 
 var chart2 = bb.generate({
     data: {
         json: {
-            "Count": languages.map(r => r.count),
+            "Count": genres.map(r => r.count),
         },
         columns: [
         ],
-        type: "bar"
+        type: "bar",
+        order: "asc",
+
     },
     bar: {
         width: {
@@ -79,9 +93,9 @@ var chart2 = bb.generate({
     axis: {
         rotated: true,
         x: {
-            label: "Language",
+            label: "Genre",
             type: "category",
-            categories: languages.map(r => r.lang)
+            categories: genres.map(r => trouverLeNomDuGenreParId(r))
         },
         y: {
             label: "Number of films"
@@ -91,9 +105,8 @@ var chart2 = bb.generate({
 });
 
 setTimeout(function() {
-    chart.load({
-        columns: [
-            // ["data3", 130, -150, 200, 300, -200, 100]
-        ]
+    chart2.load({
+        order: "asc"
     });
 }, 1000);
+
