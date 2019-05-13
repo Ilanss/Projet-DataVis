@@ -69,10 +69,16 @@ const compterLesGenres = tousLesGenre_ids.reduce((res, genre_id) => {
 const genres = Object.keys(compterLesGenres)
     .map(genre => ({ genre, count: compterLesGenres[genre] }))
 
-const trouverLeNomDuGenreParId = genre_id => genresData.find(genre => genre.id === genre_id).name
+console.log(genresData)
+const trouverLeNomDuGenreParId = genre_id => genresData.genres.find(genre => genre.id === genre_id).name
 
-//console.log(trouverLeNomDuGenreParId(12))
+var genreName = []
+console.log(trouverLeNomDuGenreParId(12))
+genresData.genres.forEach(function(genre){
+    genreName.push(trouverLeNomDuGenreParId(genre.id))
+})
 
+console.log(genreName)
 
 var chart2 = bb.generate({
     data: {
@@ -95,8 +101,9 @@ var chart2 = bb.generate({
         x: {
             label: "Genre",
             type: "category",
-            categories: genres.map(r => r.genre)
+            //categories: genres.map(r => r.genre)
             //categories: genres.map(r => trouverLeNomDuGenreParId(r))
+            categories: genreName.map(r => r)
         },
         y: {
             label: "Number of films"
